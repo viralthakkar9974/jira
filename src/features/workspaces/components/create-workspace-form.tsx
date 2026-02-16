@@ -27,6 +27,7 @@ import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 import { Divide, ImageIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
 interface CreateWorkspaceFormProps{
@@ -36,6 +37,7 @@ interface CreateWorkspaceFormProps{
 export const CreateWorkspaceForm=({onCancel}:CreateWorkspaceFormProps)=>{
 
   const {mutate,isPending}=useCreateWorkspace();
+  const router=useRouter();
 
   const inputRef=useRef<HTMLInputElement>(null);
 
@@ -61,8 +63,9 @@ export const CreateWorkspaceForm=({onCancel}:CreateWorkspaceFormProps)=>{
     };
     
     mutate({form:finalValues},{
-      onSuccess:()=>{
+      onSuccess:({data})=>{
         form.reset();
+        router.push(`/workspaces/${data.$id}`);
       }
     });
   };

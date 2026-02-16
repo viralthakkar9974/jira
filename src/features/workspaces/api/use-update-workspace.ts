@@ -12,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 type ResponseType =InferResponseType<typeof client.api.workspaces[":workspaceId"]["$patch"],200>;
 type RequestType = InferRequestType<typeof client.api.workspaces[":workspaceId"]["$patch"]>;
 
-export const useCreateWorkspace=()=>{
+export const useUpdateWorkspace=()=>{
 
   const queryClient=useQueryClient();
   

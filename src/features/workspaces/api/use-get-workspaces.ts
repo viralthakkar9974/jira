@@ -10,7 +10,7 @@ export const useGetWorkspaces=()=>{
       const response=await client.api.workspaces.$get();
 
       if(!response.ok){
-        throw new Error("faild to fetch workspaces");
+        throw new Error("faild to fetch workspacesc");
       }
 
       const {data}=await response.json();

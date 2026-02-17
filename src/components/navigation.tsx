@@ -5,7 +5,7 @@ import Link from "next/link";
 import {GoCheckCircle, GoCheckCircleFill, GoHome, GoHomeFill} from "react-icons/go";
 import { cn } from "@/lib/utils";
 
-import { useWorkspceId } from "@/features/hooks/use-workspace-id";
+import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { usePathname } from "next/navigation";
 
 

@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/select";
 import { WorkspaceAvatar } from "@/features/workspaces/components/workspace-avatar";
 import { useRouter } from "next/navigation";
-import { useWorkspceId } from "@/features/hooks/use-workspace-id";
-import { useCreateWorkspaceModal } from "@/features/hooks/use-create-workspace-modal";
+import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
+import { useCreateWorkspaceModal } from "@/features/workspaces/hooks/use-create-workspace-modal";
 
 
 export const WorkspaceSwitcher=()=>{

@@ -1,4 +1,5 @@
 import { getCurrent } from "@/features/auth/queries";
+import { MembersList } from "@/features/workspaces/components/members-list";
 import {redirect} from "next/navigation";
 
 
@@ -7,8 +8,8 @@ const WorkspaceIdMembersPage=async()=>{
   if(!user) redirect("/sign-in");
 
   return (
-    <div>
-
+    <div className="w-full lg:max-w-2xl">
+      <MembersList />
     </div>
   );
 };

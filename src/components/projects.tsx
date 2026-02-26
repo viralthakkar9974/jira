@@ -13,7 +13,7 @@ import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 
 
 export const Projects = ()=>{
-  const projectId=null;
+
   const pathname=usePathname();
   const {open}=useCreateProjectModal();
   const workspaceId=useWorkspceId();
@@ -30,7 +30,7 @@ export const Projects = ()=>{
         <RiAddCircleFill onClick={open} className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition" />
       </div>
       {data?.documents.map((project)=>{
-        const href=`/workspaces/${workspaceId}/projects/${projectId}`;
+        const href=`/workspaces/${workspaceId}/projects/${project.$id}`;
         const isActive=pathname === href;
         
         return (

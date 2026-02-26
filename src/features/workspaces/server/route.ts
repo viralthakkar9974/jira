@@ -193,7 +193,7 @@ const app = new Hono()
     "/:workspaceId",
     sessionMiddleware,
     async (c)=>{
-      const databases=c.get("databases");;
+      const databases=c.get("databases"); 
       const user=c.get("user");
       const { workspaceId }=c.req.param();
       
@@ -222,7 +222,7 @@ const app = new Hono()
     "/:workspaceId/reset-invite-code",
     sessionMiddleware,
     async (c)=>{
-      const databases=c.get("databases");;
+      const databases=c.get("databases");
       const user=c.get("user");
       const { workspaceId }=c.req.param();
       

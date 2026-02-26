@@ -44,13 +44,14 @@ export const CreateProjectForm=({onCancel}:CreateProjectFormProps)=>{
   const router=useRouter();
 
   const inputRef=useRef<HTMLInputElement>(null);
+  const formSchema = createProjectSchema.omit({ workspaceId: true });
 
-  const form=useForm<z.infer<typeof createProjectSchema>>({
-    resolver:zodResolver(createProjectSchema.omit({workspaceId:true})),
-    defaultValues:{
-      name:"",
-    },
-  });
+const form = useForm<z.infer<typeof formSchema>>({
+  resolver: zodResolver(formSchema),
+  defaultValues: {
+    name: "",
+  },
+});
 
   const handleImageChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
     const file=e.target.files?.[0];
@@ -59,22 +60,20 @@ export const CreateProjectForm=({onCancel}:CreateProjectFormProps)=>{
     }
   }
 
-  const onSubmit=(values: z.infer<typeof createProjectSchema>)=>{
-    
-    const finalValues={
-      ...values,
-      workspaceId,
-      image:values.image instanceof File ? values.image :"",
-    };
-    
-    mutate({form:finalValues},{
-      onSuccess:({data})=>{
-        form.reset();
-        router.push(`/workspaces/${workspaceId}/projects/${data.id}`);
-      }
-    });
+ const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const finalValues = {
+    ...values,
+    workspaceId,
+    image: values.image instanceof File ? values.image : "",
   };
 
+  mutate({ form: finalValues }, {
+    onSuccess: ({ data }) => {
+      form.reset();
+      router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
+    }
+  });
+};
   return(
     <Card className="w-full h-full border-none shadow-none">
       <CardHeader className="flex p-7">

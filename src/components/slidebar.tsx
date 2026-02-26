@@ -3,7 +3,7 @@ import Image from "next/image";
 import { DottedSeparator } from "./dotted-separator";
 import { Navigation } from "./navigation";
 import { WorkspaceSwitcher } from "./workspace-switcher";
-
+import { Projects } from "./projects";
 
 export const Slidebar = ()=>{
   return (
@@ -18,6 +18,10 @@ export const Slidebar = ()=>{
         <DottedSeparator className="my-4"/>
         
         <Navigation/>
+
+        <DottedSeparator className="my-4"/>
+
+        <Projects />
     </aside>
   );
 }

@@ -27,7 +27,7 @@ export const Projects = ()=>{
         <p className="text-xs uppercase text-neutral-500">
           Proejcts
         </p>
-        <RiAddCircleFill onClick={() => { }} className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition" />
+        <RiAddCircleFill onClick={open} className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition" />
       </div>
       {data?.documents.map((project)=>{
         const href=`/workspaces/${workspaceId}/projects/${projectId}`;
@@ -41,7 +41,7 @@ export const Projects = ()=>{
               isActive && "bg-white shadow-sm hover:opacity-100 text-primary"
             )}
             >
-              <ProjectAvatar name={project.name} image={project.imageUrl}/>
+              <ProjectAvatar image={project.imageUrl} name={project.name} />
               <span className="truncate">{project.name}</span>
             </div>
           </Link>

@@ -78,7 +78,6 @@ const form = useForm<z.infer<typeof formSchema>>({
 
  const onSubmit = (values: z.infer<typeof formSchema>) => {
   
-
   mutate({ json: {...values,workspaceId} }, {
     onSuccess: ({ data }) => {
       form.reset();
@@ -148,7 +147,6 @@ const form = useForm<z.infer<typeof formSchema>>({
                     defaultValue={field.value}
                     onValueChange={field.onChange}
                     >
-
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Assignee" />
@@ -177,9 +175,10 @@ const form = useForm<z.infer<typeof formSchema>>({
               )}
             />
             
+            {/* FIX 1: name was "assigneeId", changed to "status" */}
             <FormField
               control={form.control}
-              name="assigneeId"
+              name="status"
               render={({field})=>(
                 <FormItem>
                   <FormLabel>
@@ -190,7 +189,6 @@ const form = useForm<z.infer<typeof formSchema>>({
                     defaultValue={field.value}
                     onValueChange={field.onChange}
                     >
-
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Status" />
@@ -218,7 +216,6 @@ const form = useForm<z.infer<typeof formSchema>>({
               )}
             />
 
-
             <FormField
               control={form.control}
               name="projectId"
@@ -232,7 +229,6 @@ const form = useForm<z.infer<typeof formSchema>>({
                     defaultValue={field.value}
                     onValueChange={field.onChange}
                     >
-
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Project" />
@@ -241,7 +237,8 @@ const form = useForm<z.infer<typeof formSchema>>({
                       <FormMessage/>
                       <SelectContent>
                         {
-                          memberOptions.map((project)=>(
+                          /* FIX 2: was memberOptions, changed to projectOptions */
+                          projectOptions.map((project)=>(
                             <SelectItem key={project.id} value={project.id}>
                               <div className="flex items-center gap-x-2">
                                 <ProjectAvatar
@@ -290,4 +287,3 @@ const form = useForm<z.infer<typeof formSchema>>({
   )
 
 };
-

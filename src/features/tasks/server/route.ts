@@ -48,31 +48,21 @@ const app=new Hono()
       const query=[
         Query.equal("workspaceId",workspaceId!),
         Query.orderDesc("$createdAt"),
-        
       ];
 
       if(projectId){
-        console.log("projectId",projectId);
         query.push(Query.equal("projectId",projectId));
       }
-
       if(status){
-        console.log("status",status);
         query.push(Query.equal("status",status));
       }
-
       if(assigneeId){
-        console.log("assigneeId",assigneeId);
         query.push(Query.equal("assigneeId",assigneeId));
       }
-    
       if(dueDate){
-        console.log("dueDate",dueDate);
         query.push(Query.equal("dueDate",dueDate));
       }
-
       if(search){
-        console.log("search",search);
         query.push(Query.equal("search",search));
       }      
 
@@ -111,9 +101,7 @@ const app=new Hono()
       const populatedTasks=tasks.documents.map((task)=>{
         const project=projects.documents.find(
           (project)=>project.$id===task.projectId);
-
         const assignee=assigness.find((assignee)=>assignee.$id===task.assigneeId);
-
         return {
           ...task,
           project,
@@ -135,8 +123,9 @@ const app=new Hono()
     async(c)=>{
       const user=c.get("user");
       const databases=c.get("databases");
+      // FIX 3: added projectId to destructuring
       const {
-        name,status,workspaceId,dueDate,assigneeId,description
+        name,status,workspaceId,projectId,dueDate,assigneeId,description
       }=c.req.valid("json");
 
       const member=await getMember({
@@ -155,7 +144,7 @@ const app=new Hono()
         [
           Query.equal("status",status),
           Query.equal("workspaceId",workspaceId),
-          Query.orderAsc("position"),
+          Query.orderDesc("position"),
           Query.limit(1),
         ],
       );
@@ -165,26 +154,24 @@ const app=new Hono()
         ? highestPositionTask.documents[0].position+1000
         : 1000;
 
+      const task=await databases.createDocument(
+        DATABASE_ID,
+        TASKS_ID,
+        ID.unique(),
+        {
+          name,
+          status,
+          workspaceId,
+          projectId,  // FIX 3: added projectId here
+          dueDate,
+          assigneeId,
+          description,
+          position:newPosition,
+        },
+      );
 
-        const task=await databases.createDocument(
-          DATABASE_ID,
-          TASKS_ID,
-          ID.unique(),
-          {
-            name,
-            status,
-            workspaceId,
-            dueDate,
-            assigneeId,
-            description,
-            position:newPosition,
-          },
-        );
-
-        return c.json({data:task});
-        
-      }
-
+      return c.json({data:task});
+    }
   )
 
 export default app;

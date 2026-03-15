@@ -240,19 +240,12 @@ const app=new Hono()
       }
 
 
-      const task=await databases.createDocument(
-        DATABASE_ID,
-        TASKS_ID,
-        taskId,
-        {
-          name,
-          status,
-          projectId,  // FIX 3: added projectId here
-          dueDate,
-          assigneeId,
-          description,
-        },
-      );
+     const task = await databases.updateDocument(
+  DATABASE_ID,
+  TASKS_ID,
+  taskId,
+  { name, status, projectId, dueDate, assigneeId, description },
+);
 
       return c.json({data:task});
     }

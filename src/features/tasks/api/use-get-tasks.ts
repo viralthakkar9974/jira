@@ -14,7 +14,7 @@ interface UseGetProjectProps{
 };
 
 
-export const useGetTask=({
+export const useGetTasks=({
   workspaceId,
   projectId,
   search,

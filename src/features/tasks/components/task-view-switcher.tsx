@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader, PlusIcon } from "lucide-react";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
-import { useGetTask } from "../api/use-get-tasks";
+import { useGetTasks } from "../api/use-get-tasks";
 import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 import { useQueryState } from "nuqs";
@@ -30,7 +30,7 @@ export const TaskViewSwitcher = () => {
   const workspaceId = useWorkspceId();
   const {
      data: tasks, isLoading: isLoadingTasks 
-    } = useGetTask({
+    } = useGetTasks({
        workspaceId,
        projectId,
        assigneeId,

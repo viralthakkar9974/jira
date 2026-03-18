@@ -30,6 +30,7 @@ interface DataKanbanProps{
 
 export const DataKanban =({
   data,
+  onChange,
 }:DataKanbanProps)=>{
   const [tasks,setTasks]=useState<TaskState>(()=>{
     const initialTasks:TaskState={
@@ -72,7 +73,7 @@ export const DataKanban =({
   },[data]);
 
   const onDragEnd=useCallback((result:DropResult)=>{
-    if(!result.destination) result;
+    if(!result.destination) return;
 
     const {source,destination}=result;
     const sourceStatus=source.droppableId as TaskStatus;
@@ -170,7 +171,7 @@ export const DataKanban =({
                     {tasks[board].map((task,index)=>(
                       <Draggable
                       key={task.$id}
-                      draggableId="task.$id"
+                      draggableId={task.$id}
                       index={index}
                       >
                         {(provided)=>(

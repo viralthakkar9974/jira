@@ -7,7 +7,7 @@ const WorkspaceIdPage= async ()=>{
     if(!user) redirect("/sign-in");
 
   return(
-    <div>
+    <div className="h-full fle flex-col">
       Workspace Id
     </div>
   );

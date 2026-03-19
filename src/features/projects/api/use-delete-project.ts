@@ -6,7 +6,7 @@ import { InferRequestType, InferResponseType } from "hono";
 import { client } from "@/lib/rpc";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+
 
 
 
@@ -15,7 +15,7 @@ type RequestType = InferRequestType<typeof client.api.projects[":projectId"]["$d
 
 export const useDeleteProject=()=>{
 
-  const router=useRouter();
+
   const queryClient=useQueryClient();
   
   const mutation=useMutation<
@@ -34,7 +34,7 @@ export const useDeleteProject=()=>{
     },
     onSuccess:({data})=>{
       toast.success("Project Deleted")
-      router.refresh();
+
       queryClient.invalidateQueries({queryKey:["projects"]});
       queryClient.invalidateQueries({queryKey:["project",data.$id]});
 

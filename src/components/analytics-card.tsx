@@ -41,7 +41,7 @@ export const AnalyticsCard=({
             </span>
           </div>
         </div>
-        <CardTitle className=" 3xl font-semibold ">{value}</CardTitle>
+        <CardTitle className="text-2xl font-semibold ">{value}</CardTitle>
       </CardHeader>
     </Card>
   )

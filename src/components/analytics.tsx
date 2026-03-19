@@ -17,7 +17,7 @@ export const Analytics=(
           variant={data.taskDifference > 0 ? "up" : "down"}
           increaseValue={data.taskDifference}
           />
-        <DottedSeparator direction="vertical"/>
+       <DottedSeparator direction="vertical" />
         </div>
 
 
@@ -28,7 +28,7 @@ export const Analytics=(
           variant={data.assignedTaskDifference > 0 ? "up" : "down"}
           increaseValue={data.assignedTaskDifference}
           />
-        <DottedSeparator direction="vertical"/>
+        <DottedSeparator direction="vertical" />
         </div>
 
 
@@ -60,7 +60,7 @@ export const Analytics=(
           variant={data.incompleteTaskDifference > 0 ? "up" : "down"}
           increaseValue={data.incompleteTaskDifference}
           />
-        <DottedSeparator direction="vertical"/>
+        <DottedSeparator direction="vertical" />
         </div>
 
 

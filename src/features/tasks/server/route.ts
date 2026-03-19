@@ -98,8 +98,8 @@ const app=new Hono()
         query.push(Query.equal("dueDate",dueDate));
       }
       if(search){
-        query.push(Query.equal("search",search));
-      }      
+  query.push(Query.search("name", search));
+}     
 
       const tasks=await databases.listDocuments<Task>(
         DATABASE_ID,

@@ -1,5 +1,6 @@
 import {getCurrent} from "@/features/auth/queries"
 import { redirect } from "next/navigation";
+import { WorkspaceIdClient } from "./client";
 
 const WorkspaceIdPage= async ()=>{
 
@@ -8,7 +9,7 @@ const WorkspaceIdPage= async ()=>{
 
   return(
     <div className="h-full fle flex-col">
-      Workspace Id
+      <WorkspaceIdClient />
     </div>
   );
 };

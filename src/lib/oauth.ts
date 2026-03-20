@@ -22,8 +22,8 @@ export async function signUpWithGoogle() {
 
   const redirectUrl = await account.createOAuth2Token(
     OAuthProvider.Google,
-    `http://localhost:3000/oauth`,
-    `http://localhost:3000/sign-in`,
+    `${process.env.NEXT_PUBLIC_API_URL}`,
+    `${process.env.NEXT_PUBLIC_API_URL}`,
   );
 
   return redirect(redirectUrl);

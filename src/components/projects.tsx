@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
-import path from "path";
+
 import Link from "next/link";
-import { use } from "react";
+
 import { useCreateProjectModal } from "@/features/projects/hooks/use-create-project-modal";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 

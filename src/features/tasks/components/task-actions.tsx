@@ -1,13 +1,12 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuRadioItem,
   DropdownMenuTrigger,
   DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 
 import {useDeleteTask} from "../api/use-delete-task";
-import { useconfirm } from "@/hooks/use-confirm";
+import { useConfirm } from "@/hooks/use-confirm";
 
 import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -26,7 +25,7 @@ export const TaskActions=({id,projectId,children}:TaskActionProps)=>{
 
   const {open}=useEditTaskModal();
 
-  const [ConfirmDialog,confirm]=useconfirm(
+  const [ConfirmDialog,confirm]=useConfirm(
     "Delete Task",
     "This action cannot be undone",
     "destructive"

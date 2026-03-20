@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 
 
-export const useconfirm=(
+export const useConfirm=(
   title:string,
   message:string,
   variant:ButtonProps["variant"]="primary"

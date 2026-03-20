@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronRightIcon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useDeleteTask } from "../api/use-delete-task";
-import { useconfirm } from "@/hooks/use-confirm";
+import { useConfirm } from "@/hooks/use-confirm";
 import { useRouter } from "next/navigation";
 
 
@@ -25,7 +25,7 @@ export const TaskBreadcrumbs=({
   const router=useRouter();
 
   const {mutate,isPending}= useDeleteTask();
-  const [ConfirmDialog,confirm]=useconfirm(
+  const [ConfirmDialog,confirm]=useConfirm(
     "Delete Task?",
     "this action cannot be undone",
     "destructive"

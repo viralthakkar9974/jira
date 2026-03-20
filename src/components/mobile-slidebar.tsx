@@ -1,7 +1,7 @@
 "use client"
 
 import { MenuIcon } from "lucide-react";
-import { use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "./ui/button";

@@ -25,13 +25,13 @@ import {
 
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
-import { useCreateWorkspace } from "../api/use-create-workspace";
-import { ArrowLeftIcon, CopyIcon, Divide, ImageIcon } from "lucide-react";
+
+import { ArrowLeftIcon, CopyIcon,  ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Workspace } from "../types";
 import { useUpdateWorkspace } from "../api/use-update-workspace";
-import { useconfirm } from "@/hooks/use-confirm";
+import { useConfirm } from "@/hooks/use-confirm";
 import { useDeleteWorkspace } from "../api/use-delete-workspace";
 import { toast } from "sonner";
 import { useResetInviteCode } from "../api/use-reset-invite-code";
@@ -57,13 +57,13 @@ export const EditWorkspaceForm=({onCancel,initialValues}:EditWorkspaceFormProps)
     isPending:isResettingInviteCode
   }= useResetInviteCode();
 
-  const [DeleteDialog,confirmDelete] = useconfirm(
+  const [DeleteDialog,confirmDelete] = useConfirm(
     "Delete Workspace",
     "This action cannot be undone.",
     "destructive",
   );
 
-  const [ResetDialog,confirmReset] = useconfirm(
+  const [ResetDialog,confirmReset] = useConfirm(
     "Reset invite link",
     "This will invaildate the current invite link.",
     "destructive",

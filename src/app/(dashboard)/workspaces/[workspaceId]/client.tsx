@@ -35,8 +35,7 @@ export const WorkspaceIdClient =()=>{
 
   const {data:members, isLoading:isLoadingMembers}=useGetMembers({workspaceId});
 
-  const {open:createProject}=useCreateProjectModal();
-
+  
 
   const isLoading=
     isLoadingAnalytics ||
@@ -195,7 +194,7 @@ export const MembersList =({data,total}:MembersListProps)=>{
             Members({total})
           </p>
           <Button variant="secondary" size="icon" asChild >
-            <Link href={`workspaces/${workspaceId}/members`}>
+            <Link href={`/workspaces/${workspaceId}/members`}>
               <SettingsIcon className="size-4 text-neutral-400" />
             </Link>
           </Button>

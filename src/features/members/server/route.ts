@@ -1,4 +1,4 @@
-import {promise, z} from "zod";
+import { z} from "zod";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { zValidator } from "@hono/zod-validator";
 import {Hono} from "hono";

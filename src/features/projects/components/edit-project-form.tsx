@@ -1,7 +1,7 @@
 "use client";
 
 import {z} from "zod";
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 
 import Image from "next/image";
 
@@ -25,14 +25,14 @@ import {
 
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
-import { useCreateProject } from "../api/use-create-project";
-import { ArrowLeftIcon, CopyIcon, Divide, ImageIcon } from "lucide-react";
+
+import { ArrowLeftIcon,  ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Project } from "../types";
 import { useUpdateProject } from "../api/use-update-project";
-import { useconfirm } from "@/hooks/use-confirm";
-import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
+
 
 
 
@@ -43,8 +43,7 @@ interface EditProjectFormProps{
 
 export const EditProjectForm=({onCancel,initialValues}:EditProjectFormProps)=>{
 
-  const [fullInviteLink, setFullInviteLink] = useState("");
-
+ 
   const {mutate,isPending}=useUpdateProject();
   const router=useRouter();
   const {
@@ -52,7 +51,7 @@ export const EditProjectForm=({onCancel,initialValues}:EditProjectFormProps)=>{
     isPending:isDeletingProject
   }= useDeleteProject();
 
-  const [DeleteDialog,confirmDelete] = useconfirm(
+  const [DeleteDialog,confirmDelete] = useConfirm(
     "Delete Project",
     "This action cannot be undone.",
     "destructive",
@@ -69,11 +68,7 @@ export const EditProjectForm=({onCancel,initialValues}:EditProjectFormProps)=>{
     },
   });
 
-  // FIX: Move window access to useEffect to avoid SSR error
-  useEffect(() => {
-    const link = `${window.location.origin}/workspaces/${initialValues.$id}/join/${initialValues.inviteCode}`;
-    setFullInviteLink(link);
-  }, [initialValues.$id, initialValues.inviteCode]);
+  
 
   const handleImageChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
     const file=e.target.files?.[0];
@@ -269,7 +264,7 @@ export const EditProjectForm=({onCancel,initialValues}:EditProjectFormProps)=>{
               size="sm"
               variant="destructive"
               type="button"
-              disabled={isPending}
+              disabled={isPending || isDeletingProject}
               onClick={handleDelete}
             >
               Delete Project

@@ -1,9 +1,6 @@
 "use client"
 
 import {z} from "zod";
-import { useRef } from "react";
-
-import Image from "next/image";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -12,7 +9,6 @@ import { createTaskSchema } from "../schemas";
 import {Button} from "@/components/ui/button"
 
 import { Card,CardContent,CardHeader,CardTitle } from "@/components/ui/card";
-import { AvatarFallback, Avatar } from "@/components/ui/avatar";
 
 import {
   Form,
@@ -34,8 +30,8 @@ import{
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
 import { useCreateTask } from "../api/use-create-task";
-import { Divide, ImageIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+
+
 import { cn } from "@/lib/utils";
 import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { DatePicker } from "@/components/date-picker";
@@ -54,32 +50,26 @@ interface CreateTaskFormProps{
 export const CreateTaskForm=({onCancel,projectOptions,memberOptions}:CreateTaskFormProps)=>{
 
   const workspaceId=useWorkspceId();
-  const router=useRouter();
+ 
 
   const {mutate,isPending}=useCreateTask();
   
-  const inputRef=useRef<HTMLInputElement>(null);
-
+  
   const formSchema = createTaskSchema.omit({ workspaceId: true });
 
 const form = useForm<z.infer<typeof formSchema>>({
-  resolver: zodResolver(formSchema),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  resolver: zodResolver(formSchema) as any,
   defaultValues: {
-    workspaceId,
   },
 });
 
-  const handleImageChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
-    const file=e.target.files?.[0];
-    if(file){
-      form.setValue("image",file);
-    }
-  }
+  
 
  const onSubmit = (values: z.infer<typeof formSchema>) => {
   
   mutate({ json: {...values,workspaceId} }, {
-    onSuccess: ({ data }) => {
+    onSuccess: ({ }) => {
       form.reset();
       // todo Redirect to new task
     }

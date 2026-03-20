@@ -12,7 +12,6 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
 import  Link  from "next/link";
-import { useRouter } from "next/navigation";
 
 import {
   Card,
@@ -148,7 +147,7 @@ export const SignInCard = () => {
 
       <CardContent className="p-7 flex items-center justify-center">
         <p>
-              don't have an account? 
+              don&apos;t have an account? 
               <Link href="/sign-up" className="text-blue-500 ml-1">
                 Sign up
               </Link>

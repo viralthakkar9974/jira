@@ -26,7 +26,7 @@ import {
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
 import { useCreateProject } from "../api/use-create-project";
-import { Divide, ImageIcon } from "lucide-react";
+import {  ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";

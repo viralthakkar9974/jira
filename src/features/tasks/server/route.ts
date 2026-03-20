@@ -1,4 +1,4 @@
-import {email, z} from 'zod';
+import { z} from 'zod';
 
 import { sessionMiddleware } from '@/lib/session-middleware';
 import { zValidator } from '@hono/zod-validator';
@@ -218,7 +218,7 @@ const app=new Hono()
       const databases=c.get("databases");
       // FIX 3: added projectId to destructuring
       const {
-        name,status,workspaceId,projectId,dueDate,assigneeId,description
+        name,status,projectId,dueDate,assigneeId,description
       }=c.req.valid("json");
 
       const {taskId}=c.req.param();

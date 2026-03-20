@@ -10,7 +10,7 @@ import { useGetMembers } from "@/features/members/api/use-get-members";
 import { Fragment } from "react";
 import { MemberAvatar } from "@/features/members/components/members-avatar";
 import { Separator } from "@/components/ui/separator";
-import { useconfirm } from "@/hooks/use-confirm";
+import { useConfirm } from "@/hooks/use-confirm";
 import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
 import { useDeleteMember } from "@/features/members/api/use-delete-member";
 import { useUpdateMember } from "@/features/members/api/use-update-member";
@@ -20,7 +20,7 @@ export const MembersList=()=>{
 
   const workspaceId=useWorkspceId();
   const {data}=useGetMembers({workspaceId});
-  const [ConfirmDialog,confirm] =useconfirm(
+  const [ConfirmDialog,confirm] =useConfirm(
     "Remove member",
     "This member will be remove from the workspace",
     "destructive"

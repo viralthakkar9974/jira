@@ -1,6 +1,4 @@
 
-
-import { cookies } from "next/headers";
 import { Query } from "node-appwrite";
 
 
@@ -43,9 +41,6 @@ export const getWorkspaces = async () => {
   
 };
 
-interface GetWorkspaceProps{
-  workspaceId:string;
-};
 
 
 export const getWorkspace = async ({workspaceId}:{workspaceId:string}) => {
@@ -75,11 +70,6 @@ export const getWorkspace = async ({workspaceId}:{workspaceId:string}) => {
   
 };
 
-
-
-interface GetWorkspaceInfoProps{
-  workspaceId:string;
-};
 
 
 export const getWorkspaceInfo = async ({workspaceId}:{workspaceId:string}) => {

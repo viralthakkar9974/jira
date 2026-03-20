@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import { Loader, LogOut } from "lucide-react";
 
@@ -14,7 +14,7 @@ import {
 
 import { useLogout } from "../api/use-logout";
 import { useCurrent } from "../api/use-current";
-import { Amiri_Quran } from "next/font/google";
+;
 import { DottedSeparator } from "@/components/dotted-separator";
 
 export const UserButton = () => {

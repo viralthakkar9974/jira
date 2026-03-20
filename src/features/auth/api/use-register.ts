@@ -7,7 +7,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@/lib/rpc";
 import { useRouter } from "next/navigation";
-import { error } from "console";
 
 
 type ResponseType =InferResponseType<typeof client.api.auth.register["$post"]>;

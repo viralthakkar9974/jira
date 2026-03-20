@@ -4,6 +4,7 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth";
 
 
 import Link from "next/link";
@@ -152,6 +153,7 @@ export const SignUpCard = () => {
 
       <CardContent className="p-3">
         <Button 
+         onClick={()=>signUpWithGoogle()}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -164,6 +166,7 @@ export const SignUpCard = () => {
 
       <CardContent className="p-2">
         <Button 
+         onClick={()=>signUpWithGithub()}
           variant="secondary"
           size="lg"
           className="w-full"

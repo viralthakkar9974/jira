@@ -12,6 +12,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
 import  Link  from "next/link";
+import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth";
 
 import {
   Card,
@@ -118,6 +119,7 @@ export const SignInCard = () => {
 
       <CardContent className="p-3">
         <Button
+          onClick={()=>signUpWithGoogle()}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -131,6 +133,7 @@ export const SignInCard = () => {
 
       <CardContent className="p-2">
         <Button
+          onClick={()=>signUpWithGithub()}
           variant="secondary"
           size="lg"
           className="w-full"

@@ -1,5 +1,6 @@
 import { DATABASE_ID, IMAGES_BUCKET_ID, PROJECTS_ID, TASKS_ID } from "@/config";
 import { getMember } from "@/features/members/utils";
+import { MemberRole } from "@/features/members/types";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
@@ -30,6 +31,10 @@ const app =new Hono()
       })
 
       if(!member){
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      if (member.role !== MemberRole.ADMIN) {
         return c.json({ error: "Unauthorized" }, 401);
       }
 

@@ -8,6 +8,10 @@ import { TaskDate } from "./task-date";
 import { Badge } from "@/components/ui/badge";
 import { snakeCaseToTitleCase } from "@/lib/utils";
 import { useEditTaskModal } from "../hooks/use-edit-task-modal";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
+import { MemberRole } from "@/features/members/types";
 
 interface TaskOverViewProps{
   task:Task;
@@ -18,16 +22,26 @@ export const TaskOverview=({
 }:TaskOverViewProps)=>{
 
   const {open}=useEditTaskModal();
+  const workspaceId=useWorkspceId();
+  const {data:currentUser}=useCurrent();
+  const {data:members}=useGetMembers({workspaceId});
+  const currentMember=members?.documents.find((m)=>m.userId===currentUser?.$id);
+  const canEdit = Boolean(
+    currentMember?.role===MemberRole.ADMIN ||
+    (currentMember && task.assigneeId===currentMember.$id)
+  );
 
   return(
     <div className="flex flex-col gap-y-4 col-span-1 ">
       <div className="bg-muted rounded-lg p-4 ">
        <div className="flex items-center justify-between">
           <p className="text-lg font-semibold"></p>
-            <Button onClick={()=>open(task.$id)} size="sm" variant="secondary">
-              <PencilIcon className="size-4 mr-2" />
-              Edit
-            </Button>
+            {canEdit && (
+              <Button onClick={()=>open(task.$id)} size="sm" variant="secondary">
+                <PencilIcon className="size-4 mr-2" />
+                Edit
+              </Button>
+            )}
        </div>
        <DottedSeparator className="my-4" />
        <div className="flex flex-col gap-y-4">

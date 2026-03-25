@@ -10,6 +10,7 @@ import { ID, Query } from 'node-appwrite';
 import { Task, TaskStatus } from '../types';
 import { createAdminClient } from '@/lib/appwrite';
 import { Project } from '@/features/projects/types';
+import { MemberRole, type Member } from '@/features/members/types';
 
 
 const app=new Hono()
@@ -35,6 +36,11 @@ const app=new Hono()
 
       if(!member){
         return c.json({error:"Unauthorized"},401);
+      }
+
+      // Non-admins can delete only their own tasks.
+      if (member.role !== MemberRole.ADMIN && task.assigneeId !== member.$id) {
+        return c.json({ error: "Unauthorized" }, 401);
       }
 
       await databases.deleteDocument(
@@ -173,6 +179,32 @@ const app=new Hono()
         return c.json({error:"Unauthorized"},401);
       }
 
+      // Non-admins can only assign tasks to themselves.
+      if (member.role !== MemberRole.ADMIN && assigneeId !== member.$id) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      // Validate project and assignee are in the same workspace.
+      const project = await databases.getDocument<Project>(
+        DATABASE_ID,
+        PROJECTS_ID,
+        projectId,
+      );
+
+      if (project.workspaceId !== workspaceId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const assignee = await databases.getDocument<Member>(
+        DATABASE_ID,
+        MEMBERS_ID,
+        assigneeId,
+      );
+
+      if (assignee.workspaceId !== workspaceId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
       const highestPositionTask=await databases.listDocuments(
         DATABASE_ID,
         TASKS_ID,
@@ -237,6 +269,41 @@ const app=new Hono()
 
       if(!member){
         return c.json({error:"Unauthorized"},401);
+      }
+
+      // Non-admins can update only their own tasks (e.g., Kanban drag/drop).
+      if (member.role !== MemberRole.ADMIN && existingTask.assigneeId !== member.$id) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      // If assignee is being updated, enforce permission rules.
+      if (typeof assigneeId !== "undefined") {
+        if (member.role !== MemberRole.ADMIN && assigneeId !== member.$id) {
+          return c.json({ error: "Unauthorized" }, 401);
+        }
+
+        const assignee = await databases.getDocument<Member>(
+          DATABASE_ID,
+          MEMBERS_ID,
+          assigneeId,
+        );
+
+        if (assignee.workspaceId !== existingTask.workspaceId) {
+          return c.json({ error: "Unauthorized" }, 401);
+        }
+      }
+
+      // If project is being updated, ensure it belongs to the same workspace.
+      if (typeof projectId !== "undefined") {
+        const project = await databases.getDocument<Project>(
+          DATABASE_ID,
+          PROJECTS_ID,
+          projectId,
+        );
+
+        if (project.workspaceId !== existingTask.workspaceId) {
+          return c.json({ error: "Unauthorized" }, 401);
+        }
       }
 
 
@@ -346,6 +413,17 @@ const app=new Hono()
 
       if(!member){
         return c.json({error:"Unauthorized"},401);
+      }
+
+      // Non-admins can bulk-update only tasks assigned to themselves.
+      if (member.role !== MemberRole.ADMIN) {
+        const canUpdateAll = tasksToUpdate.documents.every(
+          (t) => t.assigneeId === member.$id
+        );
+
+        if (!canUpdateAll) {
+          return c.json({ error: "Unauthorized" }, 401);
+        }
       }
 
       const updateTasks=await Promise.all(

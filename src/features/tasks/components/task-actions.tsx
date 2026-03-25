@@ -12,18 +12,31 @@ import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { useEditTaskModal } from "../hooks/use-edit-task-modal";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { MemberRole } from "@/features/members/types";
 
 interface TaskActionProps{
   id:string;
   projectId:string;
+  assigneeId:string;
   children:React.ReactNode;
 };
 
-export const TaskActions=({id,projectId,children}:TaskActionProps)=>{
+export const TaskActions=({id,projectId,assigneeId,children}:TaskActionProps)=>{
   const workspaceId=useWorkspceId();
   const router=useRouter();
 
   const {open}=useEditTaskModal();
+
+  const {data:currentUser}=useCurrent();
+  const {data:members}=useGetMembers({workspaceId});
+  const currentMember=members?.documents.find((m)=>m.userId===currentUser?.$id);
+
+  const canEdit = Boolean(
+    currentMember?.role===MemberRole.ADMIN ||
+    (currentMember && assigneeId===currentMember.$id)
+  );
 
   const [ConfirmDialog,confirm]=useConfirm(
     "Delete Task",
@@ -73,22 +86,26 @@ return(
           Open Project
         </DropdownMenuItem>
 
-        <DropdownMenuItem
-        onClick={()=>open(id)}
-        className="font-medium p-[10px]"
-        >
-          <PencilIcon className="size-4 mr-2 stroke-2" />
-          Edit Task
-        </DropdownMenuItem>
+        {canEdit && (
+          <>
+            <DropdownMenuItem
+              onClick={()=>open(id)}
+              className="font-medium p-[10px]"
+            >
+              <PencilIcon className="size-4 mr-2 stroke-2" />
+              Edit Task
+            </DropdownMenuItem>
 
-        <DropdownMenuItem
-        onClick={onDelete}
-        disabled={isPending}
-        className="text-amber-700 focus:text-amber-700 font-medium p-[10px]"
-        >
-          <TrashIcon className="size-4 mr-2 stroke-2" />
-          Delete Task
-        </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={onDelete}
+              disabled={isPending}
+              className="text-amber-700 focus:text-amber-700 font-medium p-[10px]"
+            >
+              <TrashIcon className="size-4 mr-2 stroke-2" />
+              Delete Task
+            </DropdownMenuItem>
+          </>
+        )}
 
       </DropdownMenuContent>
     </DropdownMenu>

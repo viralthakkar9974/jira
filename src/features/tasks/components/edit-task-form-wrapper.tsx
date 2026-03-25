@@ -5,6 +5,9 @@ import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { Loader } from "lucide-react";
 import { useGetTask } from "../api/use-get-task";
 import { EditTaskForm } from "./edit-task-form";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { MemberRole } from "@/features/members/types";
+import { useEffect } from "react";
 
 interface EditTaskFormWrapperProps {
   onCancel:()=>void;
@@ -25,6 +28,13 @@ export const EditTaskFormWrapper=({
 
   const {data:projects,isLoading:isLoadingProject}=useGetProjects({workspaceId});
   const {data:members,isLoading:isLoadingMembers}=useGetMembers({workspaceId});
+  const {data:currentUser,isLoading:isLoadingCurrentUser}=useCurrent();
+
+  const currentMember=members?.documents.find((m)=>m.userId===currentUser?.$id);
+  const canEdit = Boolean(
+    currentMember?.role===MemberRole.ADMIN ||
+    (currentMember && initialValues?.assigneeId===currentMember.$id)
+  );
 
   const projectOptions=projects?.documents.map((project)=>({
     id:project.$id,
@@ -37,7 +47,13 @@ export const EditTaskFormWrapper=({
     name:project.name,
   }));
 
-  const isLoading = isLoadingProject || isLoadingMembers || isLoadingTask;
+  const isLoading = isLoadingProject || isLoadingMembers || isLoadingTask || isLoadingCurrentUser;
+
+  useEffect(()=>{
+    if(!isLoading && initialValues && !canEdit){
+      onCancel();
+    }
+  },[isLoading,initialValues,canEdit,onCancel]);
 
   if(isLoading){
     return(
@@ -50,6 +66,10 @@ export const EditTaskFormWrapper=({
   }
 
   if(!initialValues){
+    return null;
+  }
+
+  if(!canEdit){
     return null;
   }
 

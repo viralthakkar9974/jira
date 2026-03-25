@@ -7,6 +7,10 @@ import { DottedSeparator } from "@/components/dotted-separator";
 
 import { Task } from "../types";
 import { useUpdateTask } from "../api/use-update-task";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
+import { MemberRole } from "@/features/members/types";
 
 interface TaskDescriptionProps{
   task:Task;
@@ -16,6 +20,15 @@ export const TaskDescription =({task}:TaskDescriptionProps)=>{
 
   const [isEditing,setIsEditing]=useState(false);
   const [value,setValue]=useState(task.description);
+
+  const workspaceId=useWorkspceId();
+  const {data:currentUser}=useCurrent();
+  const {data:members}=useGetMembers({workspaceId});
+  const currentMember=members?.documents.find((m)=>m.userId===currentUser?.$id);
+  const canEdit = Boolean(
+    currentMember?.role===MemberRole.ADMIN ||
+    (currentMember && task.assigneeId===currentMember.$id)
+  );
 
   const {mutate,isPending}=useUpdateTask();
 
@@ -35,16 +48,18 @@ export const TaskDescription =({task}:TaskDescriptionProps)=>{
     <div className="p-4 border rounded-lg ">
       <div className="flex items-center justify-between">
         <p className="text-lg font-semibold "> OverView </p>
-          <Button onClick={()=>setIsEditing((prev)=>!prev)} size="sm" variant="secondary">
-            {isEditing ? (
-              <XIcon className="size-4 mr-2" />
-            ):(
-              <PencilIcon className="size-4 mr-2"/>
-            )}
-            {isEditing ? "Cancel":"Edit"}
+          {canEdit && (
+            <Button onClick={()=>setIsEditing((prev)=>!prev)} size="sm" variant="secondary">
+              {isEditing ? (
+                <XIcon className="size-4 mr-2" />
+              ):(
+                <PencilIcon className="size-4 mr-2"/>
+              )}
+              {isEditing ? "Cancel":"Edit"}
 
-            Edit
-          </Button>
+              Edit
+            </Button>
+          )}
       </div>
       <DottedSeparator className="my-4" />
         {isEditing ? (

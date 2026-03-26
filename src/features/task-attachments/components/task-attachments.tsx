@@ -204,9 +204,13 @@ export const TaskAttachments = ({ task }: TaskAttachmentsProps) => {
   );
 
   const isAdmin = currentMember?.role === MemberRole.ADMIN;
-  const canUpload = Boolean(
-    !isAdmin && currentMember && task.assigneeId === currentMember.$id
-  );
+
+// Hide attachment section if admin is viewing their own task
+if (isAdmin && task.assigneeId === currentMember?.$id) return null;
+
+const canUpload = Boolean(
+  !isAdmin && currentMember && task.assigneeId === currentMember.$id
+);
 
   const { data: attachments, isLoading } = useGetAttachments({
     taskId: task.$id,

@@ -1,3 +1,4 @@
+import sendInvites from "@/features/workspaces/server/send-invites";
 import {Hono} from 'hono';
 import { handle } from "hono/vercel";
 
@@ -15,6 +16,7 @@ const app= new Hono().basePath('/api');
 const routes=app
 .route("/auth",auth)
 .route("/workspaces",workspaces)
+.route("/workspaces", sendInvites) 
 .route("/members",members)
 .route("/projects",projects)
 .route("/tasks",tasks)

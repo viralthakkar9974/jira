@@ -1,12 +1,15 @@
 "use client";
 
-import { SettingsIcon, UsersIcon } from "lucide-react";
+import { SettingsIcon, UsersIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
 import {GoCheckCircle, GoCheckCircleFill, GoHome, GoHomeFill} from "react-icons/go";
 import { cn } from "@/lib/utils";
 
 import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { usePathname } from "next/navigation";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { MemberRole } from "@/features/members/types";
 
 
 const routes=[
@@ -34,13 +37,26 @@ const routes=[
     href:"/members",
     icon: UsersIcon,
     activeIcon:UsersIcon,
-  }
+  },
+  {
+    label: "Invite Link",
+    href:"/invite",
+    icon: MailIcon,
+    activeIcon: MailIcon,
+  },
 ];
 
 export const Navigation=()=>{
-
   const workspaceId=useWorkspceId();
   const pathname=usePathname();
+  
+  const { data: currentUser } = useCurrent();
+  const { data: members } = useGetMembers({ workspaceId });
+  
+  const currentMember = members?.documents?.find(
+    (m: any) => m.userId === currentUser?.$id
+  );
+  const isAdmin = currentMember?.role === MemberRole.ADMIN;
 
   return(
     <ul className="flex flex-col">
@@ -49,6 +65,7 @@ export const Navigation=()=>{
         const isActive=pathname===fullHref;
         const Icon=isActive ? item.activeIcon : item.icon ;
         
+        if(item.label === "Invite Link" && !isAdmin) return null;
         return(
           <Link key={item.href} href={fullHref}>
             <div className={cn(
@@ -64,4 +81,4 @@ export const Navigation=()=>{
       })}
     </ul>
   )
-}
+}

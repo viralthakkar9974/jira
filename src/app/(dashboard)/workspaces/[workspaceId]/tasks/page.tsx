@@ -3,7 +3,7 @@ import { getCurrent } from "@/features/auth/queries";
 import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
 import { getMember } from "@/features/members/utils";
 import { createSessionClient } from "@/lib/appwrite";
-import { DATABASE_ID } from "@/config";
+
 
 interface TaskPageProps {
   params: { workspaceId: string };

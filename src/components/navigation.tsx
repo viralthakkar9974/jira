@@ -54,7 +54,7 @@ export const Navigation=()=>{
   const { data: members } = useGetMembers({ workspaceId });
   
   const currentMember = members?.documents?.find(
-    (m: any) => m.userId === currentUser?.$id
+    (m: { userId: string; role: string }) => m.userId === currentUser?.$id
   );
   const isAdmin = currentMember?.role === MemberRole.ADMIN;
 
@@ -81,4 +81,4 @@ export const Navigation=()=>{
       })}
     </ul>
   )
-}
+}

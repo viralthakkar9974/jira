@@ -8,7 +8,7 @@ import { MemberRole } from "@/features/members/types";
 import { DATABASE_ID, WORKSPACES_ID } from "@/config";
 
 import { Workspace } from "../types";
-import nodemailer from "nodemailer";
+import * as nodemailer from "nodemailer";
 
 const app = new Hono()
   .post(

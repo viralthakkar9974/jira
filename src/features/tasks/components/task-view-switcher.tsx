@@ -22,13 +22,13 @@ import { useProjectId } from "@/features/projects/hooks/use-project-id";
 
 interface TaskViewSwitcherProps{
   hideProjectFilter?:boolean;
+  assigneeIdOverride?: string | null;
 };
 
 
 
 
-
-export const TaskViewSwitcher = ({hideProjectFilter}:TaskViewSwitcherProps) => {
+export const TaskViewSwitcher = ({hideProjectFilter, assigneeIdOverride}:TaskViewSwitcherProps) => {
 
   const [view, setView] = useQueryState("view", {
     defaultValue: "table",
@@ -52,7 +52,7 @@ export const TaskViewSwitcher = ({hideProjectFilter}:TaskViewSwitcherProps) => {
     } = useGetTasks({
        workspaceId,
        projectId:paramProjectId || projectId,
-       assigneeId,
+       assigneeId: assigneeIdOverride ?? assigneeId,
        status,
        dueDate
        });

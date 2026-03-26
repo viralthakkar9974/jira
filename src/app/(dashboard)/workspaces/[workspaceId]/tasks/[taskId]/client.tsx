@@ -9,12 +9,23 @@ import { TaskDescription } from "@/features/tasks/components/task-description";
 import { TaskOverview } from "@/features/tasks/components/task-overview";
 import { useTaskId } from "@/features/tasks/hooks/use-task-id";
 import { TaskAttachments } from "@/features/task-attachments/components/task-attachments";
-
+import { useRouter } from "next/navigation";
+import { useWorkspceId } from "@/features/workspaces/hooks/use-workspace-id";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export const TaskIdClient=()=>{
   const taskId=useTaskId();
-  const {data,isLoading}=useGetTask({taskId});
+  const router=useRouter();
+  const workspaceId=useWorkspceId();
+  const {data,isLoading,error}=useGetTask({taskId});
 
+  useEffect(()=>{
+    if(error){
+      toast.error(error.message || "You don't have access to this task");
+      router.push(`/workspaces/${workspaceId}/tasks`);
+    }
+  },[error, router, workspaceId]);
 
   if(isLoading){
     return <PageLoader />

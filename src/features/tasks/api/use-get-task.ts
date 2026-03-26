@@ -19,7 +19,8 @@ export const useGetTask=({
       }});
 
       if(!response.ok){
-        throw new Error("failed to fetch task");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error((errorData as any)?.error || "failed to fetch task");
       }
 
       const {data}=await response.json();

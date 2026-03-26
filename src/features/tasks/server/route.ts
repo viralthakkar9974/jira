@@ -342,6 +342,14 @@ const app=new Hono()
         return c.json({error:"Unauthorized"},401);
       }
 
+      // Only the assignee or an admin can view task details
+      const isAdmin = currentMember.role === MemberRole.ADMIN;
+      const isAssignee = task.assigneeId === currentMember.$id;
+
+      if(!isAdmin && !isAssignee){
+        return c.json({error:"You don't have access to this task"},403);
+      }
+
       const project=await databases.getDocument<Project>(
         DATABASE_ID,
         PROJECTS_ID,

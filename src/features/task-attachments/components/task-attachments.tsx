@@ -205,13 +205,11 @@ export const TaskAttachments = ({ task }: TaskAttachmentsProps) => {
 
   const isAdmin = currentMember?.role === MemberRole.ADMIN;
 
-// Hide attachment section if admin is viewing their own task
-if (isAdmin && task.assigneeId === currentMember?.$id) return null;
+  const canUpload = Boolean(
+    !isAdmin && currentMember && task.assigneeId === currentMember.$id
+  );
 
-const canUpload = Boolean(
-  !isAdmin && currentMember && task.assigneeId === currentMember.$id
-);
-
+  // All hooks must be called unconditionally before any early returns
   const { data: attachments, isLoading } = useGetAttachments({
     taskId: task.$id,
   });
@@ -227,6 +225,9 @@ const canUpload = Boolean(
   const [commentOpenId, setCommentOpenId] = useState<string | null>(null);
   // Track which attachments have their comments section expanded
   const [expandedComments, setExpandedComments] = useState<Set<string>>(new Set());
+
+  // Hide attachment section if admin is viewing their own task
+  if (isAdmin && task.assigneeId === currentMember?.$id) return null;
 
   const toggleComments = (id: string) => {
     setExpandedComments((prev) => {
